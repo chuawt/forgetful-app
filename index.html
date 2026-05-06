@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#F4EEDF">
+<title>forgetful · spaced reminders</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F4EEDF;
+    --paper: #FAF6EC;
+    --ink: #1F1B17;
+    --ink-soft: #5C544B;
+    --ink-faint: #8A8175;
+    --line: #E2D9C5;
+    --line-strong: #D6CAB0;
+    --accent: #B85A2E;
+    --accent-soft: #E5C9B2;
+    --shadow: 0 1px 0 rgba(31,27,23,0.04), 0 8px 24px -14px rgba(31,27,23,0.18);
+    --shadow-sm: 0 1px 0 rgba(31,27,23,0.04), 0 4px 12px -8px rgba(31,27,23,0.14);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body { height: 100%; overflow-x: hidden; }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-image:
+      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255,252,240,0.7) 0%, transparent 60%),
+      radial-gradient(ellipse 70% 50% at 50% 100%, rgba(184,90,46,0.05) 0%, transparent 60%);
+    background-attachment: fixed;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 18px;
+    text-wrap: pretty;
+  }
+
+  h1, h2, h3, .balance { text-wrap: balance; }
+
+  .app {
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  /* Header */
+  header { text-align: center; padding-top: 4px; }
+  .brand {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 500;
+    font-size: 30px;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    line-height: 1;
+    font-variation-settings: "opsz" 144, "SOFT" 50;
+  }
+  .brand .dot { color: var(--accent); }
+  .tagline {
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    margin-top: 6px;
+    letter-spacing: 0.04em;
+  }
+
+  /* Anchor card (Day 1) */
+  .anchor {
+    position: relative;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    padding: 20px 22px 22px;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  .anchor:hover { border-color: var(--line-strong); }
+  .anchor:active { transform: scale(0.992); }
+
+  .anchor-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+  .day-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  .day-tag .pip {
+    width: 5px; height: 5px; border-radius: 99px;
+    background: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+  .edit-hint {
+    font-size: 10.5px;
+    color: var(--ink-faint);
+    letter-spacing: 0.02em;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .full-date {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 500;
+    font-size: 36px;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144;
+    display: block;
+  }
+  .weekday {
+    font-family: 'Fraunces', Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin-top: 6px;
+    letter-spacing: -0.005em;
+    display: block;
+  }
+
+  /* Divider */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 4px;
+  }
+  .divider-line {
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+  .divider-text {
+    font-size: 9.5px;
+    color: var(--ink-faint);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  /* Interval grid */
+  .intervals {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 9px;
+  }
+
+  .card {
+    position: relative;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 14px 10px 12px;
+    text-align: center;
+    transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+    box-shadow: var(--shadow-sm);
+  }
+  .card:hover { border-color: var(--line-strong); }
+  .card:active { transform: scale(0.985); }
+
+  .day-num-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0;
+    margin-bottom: 10px;
+  }
+  .day-prefix {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--accent);
+    line-height: 1;
+    margin-right: 1px;
+  }
+  .day-suffix {
+    font-family: 'Fraunces', Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 13px;
+    color: var(--accent);
+    margin-left: 4px;
+    letter-spacing: -0.005em;
+    line-height: 1;
+    opacity: 0.85;
+  }
+  .day-num {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--accent);
+    cursor: pointer;
+    line-height: 1;
+    padding: 2px 5px;
+    border-radius: 6px;
+    transition: background .15s ease;
+    min-width: 16px;
+    display: inline-block;
+  }
+  .day-num:hover { background: var(--accent-soft); }
+  .day-num input {
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
+    background: transparent;
+    border: none;
+    outline: none;
+    width: 36px;
+    text-align: center;
+    padding: 0;
+    -moz-appearance: textfield;
+  }
+  .day-num input::-webkit-outer-spin-button,
+  .day-num input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .card-date {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 500;
+    font-size: 24px;
+    color: var(--ink);
+    line-height: 1;
+    letter-spacing: -0.025em;
+    font-variation-settings: "opsz" 144;
+  }
+  .card-weekday {
+    font-family: 'Fraunces', Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-top: 5px;
+    line-height: 1;
+    letter-spacing: -0.005em;
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding-top: 4px;
+  }
+  .footer-text {
+    font-size: 10.5px;
+    color: var(--ink-faint);
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+  }
+
+  /* Hidden native date input over anchor */
+  .hidden-input {
+    position: absolute;
+    left: 16px;
+    bottom: 12px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+    border: none;
+    background: transparent;
+  }
+
+  /* Entrance animation */
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  header   { animation: rise .45s ease .00s both; }
+  .anchor  { animation: rise .55s ease .08s both; }
+  .divider { animation: rise .45s ease .18s both; }
+  .intervals .card:nth-child(1) { animation: rise .55s ease .22s both; }
+  .intervals .card:nth-child(2) { animation: rise .55s ease .29s both; }
+  .intervals .card:nth-child(3) { animation: rise .55s ease .36s both; }
+  footer   { animation: rise .45s ease .42s both; }
+
+  /* Update pulse */
+  @keyframes pulse-text {
+    0%   { transform: scale(1); }
+    40%  { transform: scale(1.05); color: var(--accent); }
+    100% { transform: scale(1); }
+  }
+  .pulse { animation: pulse-text .42s ease; display: inline-block; transform-origin: center; }
+
+  /* Tiny screens */
+  @media (max-height: 640px) {
+    body { padding: 14px; }
+    .app { gap: 14px; }
+    .anchor { padding: 16px 18px 18px; }
+    .weekday { font-size: 30px; }
+    .full-date { font-size: 14px; }
+    .day-num { font-size: 24px; }
+    .brand { font-size: 26px; }
+  }
+</style>
+</head>
+<body>
+<main class="app" role="application" aria-label="forgetful · spaced reminders">
+
+  <header>
+    <h1 class="brand">forgetful<span class="dot">.</span></h1>
+    <div class="tagline">spaced reminders</div>
+  </header>
+
+  <section class="anchor" id="anchor" aria-label="Anchor date">
+    <div class="anchor-row">
+      <span class="day-tag"><span class="pip"></span>Day 1 · today</span>
+      <span class="edit-hint">tap to change ↗</span>
+    </div>
+    <div>
+      <span class="full-date balance" id="anchor-fulldate">May 7, 2026</span>
+      <span class="weekday" id="anchor-weekday">Thursday</span>
+    </div>
+    <input type="date" class="hidden-input" id="date-picker" aria-label="Choose anchor date">
+  </section>
+
+  <div class="divider" role="separator" aria-label="Reminders">
+    <div class="divider-line"></div>
+    <div class="divider-text">Reminders</div>
+    <div class="divider-line"></div>
+  </div>
+
+  <section class="intervals" aria-label="Reminder intervals">
+    <article class="card" data-index="0">
+      <div class="day-num-row">
+        <span class="day-prefix">+</span>
+        <span class="day-num" data-day-num title="Tap to edit">1</span>
+        <span class="day-suffix" data-day-suffix>day</span>
+      </div>
+      <div class="card-date" data-date>May 8</div>
+      <div class="card-weekday" data-weekday>Fri</div>
+    </article>
+
+    <article class="card" data-index="1">
+      <div class="day-num-row">
+        <span class="day-prefix">+</span>
+        <span class="day-num" data-day-num title="Tap to edit">5</span>
+        <span class="day-suffix" data-day-suffix>days</span>
+      </div>
+      <div class="card-date" data-date>May 12</div>
+      <div class="card-weekday" data-weekday>Tue</div>
+    </article>
+
+    <article class="card" data-index="2">
+      <div class="day-num-row">
+        <span class="day-prefix">+</span>
+        <span class="day-num" data-day-num title="Tap to edit">23</span>
+        <span class="day-suffix" data-day-suffix>days</span>
+      </div>
+      <div class="card-date" data-date>May 30</div>
+      <div class="card-weekday" data-weekday>Sat</div>
+    </article>
+  </section>
+
+  <footer>
+    <p class="footer-text">tap a date to change · tap a number to adjust</p>
+  </footer>
+
+</main>
+
+<script>
+  // --- state ---
+  let anchorDate = startOfDay(new Date());
+  const intervals = [1, 5, 23];
+
+  const weekdays      = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const weekdaysShort = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const months        = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const monthsShort   = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+  function startOfDay(d) {
+    const x = new Date(d);
+    x.setHours(0,0,0,0);
+    return x;
+  }
+  function addDays(date, days) {
+    const r = new Date(date);
+    r.setDate(r.getDate() + days);
+    return r;
+  }
+  function ymd(date) {
+    const y = date.getFullYear();
+    const m = String(date.getMonth()+1).padStart(2,'0');
+    const d = String(date.getDate()).padStart(2,'0');
+    return `${y}-${m}-${d}`;
+  }
+  function isSameDay(a, b) {
+    return a.getFullYear() === b.getFullYear() &&
+           a.getMonth() === b.getMonth() &&
+           a.getDate() === b.getDate();
+  }
+
+  // --- render ---
+  function render() {
+    // Anchor
+    document.getElementById('anchor-weekday').textContent = weekdays[anchorDate.getDay()];
+    document.getElementById('anchor-fulldate').textContent =
+      `${months[anchorDate.getMonth()]} ${anchorDate.getDate()}, ${anchorDate.getFullYear()}`;
+    document.getElementById('date-picker').value = ymd(anchorDate);
+
+    // Tag updates: today / not today
+    const tag = document.querySelector('.day-tag');
+    const isToday = isSameDay(anchorDate, startOfDay(new Date()));
+    tag.innerHTML = `<span class="pip"></span>Day 1 · ${isToday ? 'today' : 'anchor'}`;
+
+    // Cards: Day N starts counting from Day 1 = anchor, so Day N = anchor + (N-1)
+    document.querySelectorAll('.card').forEach((card, i) => {
+      const n = intervals[i];
+      const target = addDays(anchorDate, n);
+      const numEl = card.querySelector('[data-day-num]');
+      if (!numEl.querySelector('input')) numEl.textContent = n;
+      card.querySelector('[data-day-suffix]').textContent = n === 1 ? 'day' : 'days';
+      card.querySelector('[data-weekday]').textContent = weekdaysShort[target.getDay()];
+      card.querySelector('[data-date]').textContent =
+        `${monthsShort[target.getMonth()]} ${target.getDate()}`;
+    });
+  }
+
+  function pulse(el) {
+    if (!el) return;
+    el.classList.remove('pulse');
+    void el.offsetWidth;
+    el.classList.add('pulse');
+  }
+
+  // --- anchor: open native date picker on tap ---
+  const anchorEl  = document.getElementById('anchor');
+  const datePicker = document.getElementById('date-picker');
+
+  function openDatePicker() {
+    if (typeof datePicker.showPicker === 'function') {
+      try { datePicker.showPicker(); return; } catch (_) {}
+    }
+    datePicker.focus();
+    datePicker.click();
+  }
+  anchorEl.addEventListener('click', openDatePicker);
+  anchorEl.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      openDatePicker();
+    }
+  });
+  anchorEl.setAttribute('role', 'button');
+  anchorEl.setAttribute('tabindex', '0');
+
+  datePicker.addEventListener('change', (e) => {
+    const v = e.target.value;
+    if (!v) return;
+    const [y, m, d] = v.split('-').map(Number);
+    anchorDate = startOfDay(new Date(y, m - 1, d));
+    render();
+    pulse(document.getElementById('anchor-fulldate'));
+  });
+
+  // --- interval edit ---
+  document.querySelectorAll('[data-day-num]').forEach((el, i) => {
+    el.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (el.querySelector('input')) return;
+
+      const current = intervals[i];
+      const input = document.createElement('input');
+      input.type = 'number';
+      input.min = '1';
+      input.max = '999';
+      input.inputMode = 'numeric';
+      input.value = current;
+      el.textContent = '';
+      el.appendChild(input);
+      input.focus();
+      input.select();
+
+      const commit = () => {
+        const raw = parseInt(input.value, 10);
+        const val = (isFinite(raw) && raw >= 1 && raw <= 999) ? raw : current;
+        intervals[i] = val;
+        el.textContent = val;
+        render();
+        pulse(document.querySelectorAll('.card')[i].querySelector('[data-date]'));
+      };
+
+      input.addEventListener('blur', commit, { once: true });
+      input.addEventListener('keydown', (ev) => {
+        if (ev.key === 'Enter') input.blur();
+        if (ev.key === 'Escape') { input.value = current; input.blur(); }
+      });
+    });
+  });
+
+  render();
+</script>
+</body>
+</html>
