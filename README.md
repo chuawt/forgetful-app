@@ -6,11 +6,13 @@ A spaced repetition tool for things worth remembering.
 
 ## What it does
 
-You set a date — the day you learned something, met someone, read something that mattered. forgetful then shows you when to revisit it: on day 1, day 7, and day 30.
+You set a date — the day you learned a few words in a foreign language, worked on a math problem, read something that mattered. forgetful then shows you when to revisit it: on day 1, day 7, and day 30.
 
-These intervals follow the forgetting curve: the idea that memory decays predictably, and that reviewing at the right moments locks information in before it slips away.
+These intervals follow Ebbinghaus's forgetting curve: the idea that memory decays predictably, and that reviewing at the right moments locks information in before it slips away.
 
-The increments section lets you set custom review intervals on top of that — adjust them to fit how you actually learn.
+The increments section lets you set custom review intervals on top of that — in case you missed a review session.
+
+All dates and increments are adjustable.
 
 ## How to use it
 
