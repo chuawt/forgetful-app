@@ -28,6 +28,10 @@ A single `index.html` — no build step, no dependencies, no backend. Open it in
 - CSS custom properties for theming
 - Native date picker for input
 
+## Use it online
+
+Visit [forgetful.pages.dev](https://forgetful.pages.dev/) to use the app.
+
 ## Local use
 
 ```
