@@ -23,11 +23,11 @@ There are three sections:
 3. Tap ⚙ to open the interval editor and adjust the three checkpoints
 4. Use the dates as reminders to revisit whatever you're trying to hold onto
 
-![forgetful screenshot](screenshot.png)
+![forgetful screenshot](../images/screenshot.png)
 
 Tap the ⚙ icon to customize the intervals:
 
-![forgetful with sidebar](screenshot-sidebar.png)
+![forgetful with sidebar](../images/screenshot-sidebar.png)
 
 ## Stack
 
