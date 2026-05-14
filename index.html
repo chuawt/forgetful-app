@@ -389,6 +389,7 @@
   .sidebar-tile-day {
     display: flex;
     align-items: baseline;
+    justify-content: center;
     gap: 6px;
     font-size: 20px;
     font-weight: 600;
@@ -406,7 +407,7 @@
     border: none;
     border-bottom: 2px solid var(--line-strong);
     outline: none;
-    flex: 1;
+    width: 72px;
     text-align: center;
     padding: 0;
     -moz-appearance: textfield;
@@ -645,9 +646,9 @@
     const isToday = isSameDay(anchorDate, startOfDay(new Date()));
     tag.innerHTML = `<span class="pip"></span>Day 1 · ${isToday ? 'today' : 'anchor'}`;
 
-    // Forgetting curve: absolute days from anchor
+    // Forgetting curve: anchor is Day 1, so DAY n = anchor + (n-1) days
     curveIntervals.forEach((n, i) => {
-      const target = addDays(anchorDate, n);
+      const target = addDays(anchorDate, n - 1);
       document.querySelector(`[data-curve-label="${i}"]`).textContent = `DAY ${n}`;
       document.querySelector(`[data-curve-date="${i}"]`).textContent =
         `${monthsShort[target.getMonth()]} ${target.getDate()}`;
@@ -655,10 +656,10 @@
         weekdaysShort[target.getDay()];
     });
 
-    // Increments: gaps between curve dates
-    // tile 0: curve[0] - 1
-    // tile 1: curve[0] → curve[1]
-    // tile 2: curve[1] → curve[2]
+    // Increments: gaps between curve dates (anchor = Day 1)
+    // tile 0: days from anchor to curve[0] date = curve[0] - 1
+    // tile 1: days from curve[0] to curve[1] date
+    // tile 2: days from curve[1] to curve[2] date
     const gaps = [
       curveIntervals[0] - 1,
       curveIntervals[1] - curveIntervals[0],
@@ -667,7 +668,7 @@
 
     document.querySelectorAll('.card').forEach((card, i) => {
       const gap = gaps[i];
-      const target = addDays(anchorDate, curveIntervals[i]);
+      const target = addDays(anchorDate, curveIntervals[i] - 1);
       card.querySelector('[data-day-num]').textContent = gap;
       card.querySelector('[data-day-suffix]').textContent = gap === 1 ? 'DAY' : 'DAYS';
       card.querySelector('[data-date]').textContent =
