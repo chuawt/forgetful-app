@@ -58,19 +58,18 @@
   /* Header */
   header { text-align: center; padding-top: 4px; }
   .brand {
-    font-family: 'Fraunces', Georgia, serif;
-    font-weight: 500;
-    font-size: 30px;
-    letter-spacing: -0.025em;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 38px;
+    letter-spacing: -0.04em;
     color: var(--ink);
     line-height: 1;
-    font-variation-settings: "opsz" 144, "SOFT" 50;
   }
   .brand .dot { color: var(--accent); }
   .tagline {
-    font-size: 11.5px;
+    font-size: 14px;
     color: var(--ink-soft);
-    margin-top: 6px;
+    margin-top: 8px;
     letter-spacing: 0.04em;
   }
 
@@ -98,9 +97,9 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    font-size: 10.5px;
-    font-weight: 600;
-    letter-spacing: 0.14em;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
     color: var(--accent);
     text-transform: uppercase;
   }
@@ -119,23 +118,22 @@
   }
 
   .full-date {
-    font-family: 'Fraunces', Georgia, serif;
-    font-weight: 500;
-    font-size: 36px;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 600;
+    font-size: 34px;
     line-height: 1.05;
-    letter-spacing: -0.025em;
+    letter-spacing: -0.03em;
     color: var(--ink);
-    font-variation-settings: "opsz" 144;
     display: block;
   }
   .weekday {
-    font-family: 'Fraunces', Georgia, serif;
+    font-family: 'Inter', system-ui, sans-serif;
     font-style: italic;
     font-weight: 400;
     font-size: 14px;
     color: var(--ink-soft);
     margin-top: 6px;
-    letter-spacing: -0.005em;
+    letter-spacing: -0.01em;
     display: block;
   }
 
@@ -187,28 +185,16 @@
     margin-bottom: 10px;
   }
   .day-prefix {
-    font-family: 'Fraunces', Georgia, serif;
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--accent);
-    line-height: 1;
-    margin-right: 1px;
+    display: none;
   }
   .day-suffix {
-    font-family: 'Fraunces', Georgia, serif;
-    font-style: italic;
-    font-weight: 400;
-    font-size: 13px;
-    color: var(--accent);
-    margin-left: 4px;
-    letter-spacing: -0.005em;
-    line-height: 1;
-    opacity: 0.85;
+    display: none;
   }
   .day-num {
-    font-family: 'Fraunces', Georgia, serif;
-    font-weight: 500;
-    font-size: 14px;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.16em;
     color: var(--accent);
     cursor: pointer;
     line-height: 1;
@@ -217,6 +203,7 @@
     transition: background .15s ease;
     min-width: 16px;
     display: inline-block;
+    text-transform: uppercase;
   }
   .day-num:hover { background: var(--accent-soft); }
   .day-num input {
@@ -239,23 +226,58 @@
   }
 
   .card-date {
-    font-family: 'Fraunces', Georgia, serif;
-    font-weight: 500;
-    font-size: 24px;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 600;
+    font-size: 22px;
     color: var(--ink);
     line-height: 1;
-    letter-spacing: -0.025em;
-    font-variation-settings: "opsz" 144;
+    letter-spacing: -0.03em;
   }
   .card-weekday {
-    font-family: 'Fraunces', Georgia, serif;
+    font-family: 'Inter', system-ui, sans-serif;
     font-style: italic;
     font-weight: 400;
     font-size: 12px;
     color: var(--ink-soft);
     margin-top: 5px;
     line-height: 1;
-    letter-spacing: -0.005em;
+  }
+
+  /* Forgetting curve (read-only tiles) */
+  .curve-card {
+    position: relative;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 14px 10px 12px;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    opacity: 0.82;
+  }
+  .curve-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .curve-date {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 600;
+    font-size: 22px;
+    color: var(--ink);
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+  .curve-weekday {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-top: 5px;
+    line-height: 1;
   }
 
   /* Footer */
@@ -291,10 +313,14 @@
   header   { animation: rise .45s ease .00s both; }
   .anchor  { animation: rise .55s ease .08s both; }
   .divider { animation: rise .45s ease .18s both; }
-  .intervals .card:nth-child(1) { animation: rise .55s ease .22s both; }
-  .intervals .card:nth-child(2) { animation: rise .55s ease .29s both; }
-  .intervals .card:nth-child(3) { animation: rise .55s ease .36s both; }
-  footer   { animation: rise .45s ease .42s both; }
+  .divider.divider-increments { animation: rise .45s ease .44s both; }
+  .intervals .card:nth-child(1) { animation: rise .55s ease .50s both; }
+  .intervals .card:nth-child(2) { animation: rise .55s ease .57s both; }
+  .intervals .card:nth-child(3) { animation: rise .55s ease .64s both; }
+  .curve-grid .curve-card:nth-child(1) { animation: rise .55s ease .22s both; }
+  .curve-grid .curve-card:nth-child(2) { animation: rise .55s ease .29s both; }
+  .curve-grid .curve-card:nth-child(3) { animation: rise .55s ease .36s both; }
+  footer   { animation: rise .45s ease .70s both; }
 
   /* Update pulse */
   @keyframes pulse-text {
@@ -321,7 +347,7 @@
 
   <header>
     <h1 class="brand">forgetful<span class="dot">.</span></h1>
-    <div class="tagline">spaced reminders</div>
+    <div class="tagline">spaced repetition</div>
   </header>
 
   <section class="anchor" id="anchor" aria-label="Anchor date">
@@ -336,18 +362,40 @@
     <input type="date" class="hidden-input" id="date-picker" aria-label="Choose anchor date">
   </section>
 
-  <div class="divider" role="separator" aria-label="Reminders">
+  <div class="divider" role="separator" aria-label="Forgetting Curve">
     <div class="divider-line"></div>
-    <div class="divider-text">Reminders</div>
+    <div class="divider-text">Forgetting Curve</div>
+    <div class="divider-line"></div>
+  </div>
+
+  <section class="intervals curve-grid" aria-label="Forgetting curve intervals">
+    <article class="curve-card">
+      <div class="curve-label">DAY 1</div>
+      <div class="curve-date" data-curve-date="0">—</div>
+      <div class="curve-weekday" data-curve-weekday="0">—</div>
+    </article>
+    <article class="curve-card">
+      <div class="curve-label">DAY 7</div>
+      <div class="curve-date" data-curve-date="1">—</div>
+      <div class="curve-weekday" data-curve-weekday="1">—</div>
+    </article>
+    <article class="curve-card">
+      <div class="curve-label">DAY 30</div>
+      <div class="curve-date" data-curve-date="2">—</div>
+      <div class="curve-weekday" data-curve-weekday="2">—</div>
+    </article>
+  </section>
+
+  <div class="divider divider-increments" role="separator" aria-label="Increments">
+    <div class="divider-line"></div>
+    <div class="divider-text">Increments</div>
     <div class="divider-line"></div>
   </div>
 
   <section class="intervals" aria-label="Reminder intervals">
     <article class="card" data-index="0">
       <div class="day-num-row">
-        <span class="day-prefix">+</span>
-        <span class="day-num" data-day-num title="Tap to edit">1</span>
-        <span class="day-suffix" data-day-suffix>day</span>
+        <span class="day-num" data-day-num title="Tap to edit">+ 1</span>
       </div>
       <div class="card-date" data-date>May 8</div>
       <div class="card-weekday" data-weekday>Fri</div>
@@ -355,9 +403,7 @@
 
     <article class="card" data-index="1">
       <div class="day-num-row">
-        <span class="day-prefix">+</span>
-        <span class="day-num" data-day-num title="Tap to edit">5</span>
-        <span class="day-suffix" data-day-suffix>days</span>
+        <span class="day-num" data-day-num title="Tap to edit">+ 5</span>
       </div>
       <div class="card-date" data-date>May 12</div>
       <div class="card-weekday" data-weekday>Tue</div>
@@ -365,9 +411,7 @@
 
     <article class="card" data-index="2">
       <div class="day-num-row">
-        <span class="day-prefix">+</span>
-        <span class="day-num" data-day-num title="Tap to edit">23</span>
-        <span class="day-suffix" data-day-suffix>days</span>
+        <span class="day-num" data-day-num title="Tap to edit">+ 23</span>
       </div>
       <div class="card-date" data-date>May 30</div>
       <div class="card-weekday" data-weekday>Sat</div>
@@ -425,13 +469,22 @@
     const isToday = isSameDay(anchorDate, startOfDay(new Date()));
     tag.innerHTML = `<span class="pip"></span>Day 1 · ${isToday ? 'today' : 'anchor'}`;
 
+    // Forgetting curve (fixed 1, 7, 30 days)
+    const curveIntervals = [1, 7, 30];
+    curveIntervals.forEach((n, i) => {
+      const target = addDays(anchorDate, n);
+      document.querySelector(`[data-curve-date="${i}"]`).textContent =
+        `${monthsShort[target.getMonth()]} ${target.getDate()}`;
+      document.querySelector(`[data-curve-weekday="${i}"]`).textContent =
+        weekdaysShort[target.getDay()];
+    });
+
     // Cards: Day N starts counting from Day 1 = anchor, so Day N = anchor + (N-1)
     document.querySelectorAll('.card').forEach((card, i) => {
       const n = intervals[i];
       const target = addDays(anchorDate, n);
       const numEl = card.querySelector('[data-day-num]');
-      if (!numEl.querySelector('input')) numEl.textContent = n;
-      card.querySelector('[data-day-suffix]').textContent = n === 1 ? 'day' : 'days';
+      if (!numEl.querySelector('input')) numEl.textContent = `+${n} DAY${n === 1 ? '' : 'S'}`;
       card.querySelector('[data-weekday]').textContent = weekdaysShort[target.getDay()];
       card.querySelector('[data-date]').textContent =
         `${monthsShort[target.getMonth()]} ${target.getDate()}`;
@@ -497,7 +550,7 @@
         const raw = parseInt(input.value, 10);
         const val = (isFinite(raw) && raw >= 1 && raw <= 999) ? raw : current;
         intervals[i] = val;
-        el.textContent = val;
+        el.textContent = `+${val} DAY${val === 1 ? '' : 'S'}`;
         render();
         pulse(document.querySelectorAll('.card')[i].querySelector('[data-date]'));
       };
