@@ -287,14 +287,16 @@
 
   /* Footer */
   footer {
-    text-align: center;
-    padding-top: 16px;
+    text-align: right;
+    padding-top: 32px;
+    padding-bottom: 16px;
   }
   .footer-text {
     font-size: 10.5px;
     color: var(--ink-faint);
     line-height: 1.5;
     letter-spacing: 0.02em;
+    font-style: italic;
   }
 
   /* Hidden native date input */
@@ -594,7 +596,7 @@
   </section>
 
   <footer>
-    <p class="footer-text">tap on the date to change</p>
+    <p class="footer-text"><span style="color:var(--accent)">♥</span> by chuawt</p>
   </footer>
 
 </main>
@@ -656,10 +658,7 @@
         weekdaysShort[target.getDay()];
     });
 
-    // Increments: gaps between curve dates (anchor = Day 1)
-    // tile 0: days from anchor to curve[0] date = curve[0] - 1
-    // tile 1: days from curve[0] to curve[1] date
-    // tile 2: days from curve[1] to curve[2] date
+    // Increments: days between consecutive curve dates
     const gaps = [
       curveIntervals[0] - 1,
       curveIntervals[1] - curveIntervals[0],
@@ -668,7 +667,7 @@
 
     document.querySelectorAll('.card').forEach((card, i) => {
       const gap = gaps[i];
-      const target = addDays(anchorDate, curveIntervals[i] - 1);
+      const target = addDays(anchorDate, gaps[i]);
       card.querySelector('[data-day-num]').textContent = gap;
       card.querySelector('[data-day-suffix]').textContent = gap === 1 ? 'DAY' : 'DAYS';
       card.querySelector('[data-date]').textContent =
