@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#F4EEDF">
-<title>forgetful · spaced reminders</title>
+<title>forgetful · spaced repetition</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #F4EEDF;
@@ -56,7 +56,11 @@
   }
 
   /* Header */
-  header { text-align: center; padding-top: 4px; }
+  header {
+    text-align: center;
+    padding-top: 4px;
+    position: relative;
+  }
   .brand {
     font-family: 'Inter', system-ui, sans-serif;
     font-weight: 700;
@@ -72,6 +76,21 @@
     margin-top: 8px;
     letter-spacing: 0.04em;
   }
+  .gear-btn {
+    position: absolute;
+    top: 4px;
+    right: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 8px;
+    color: var(--ink-faint);
+    font-size: 24px;
+    line-height: 1;
+    transition: color .15s ease, background .15s ease;
+  }
+  .gear-btn:hover { color: var(--ink-soft); background: var(--line); }
 
   /* Anchor card (Day 1) */
   .anchor {
@@ -143,6 +162,7 @@
     align-items: center;
     gap: 10px;
     padding: 0 4px;
+    margin-top: 16px;
   }
   .divider-line {
     flex: 1;
@@ -164,86 +184,7 @@
     gap: 9px;
   }
 
-  .card {
-    position: relative;
-    background: var(--paper);
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    padding: 14px 10px 12px;
-    text-align: center;
-    transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
-    box-shadow: var(--shadow-sm);
-  }
-  .card:hover { border-color: var(--line-strong); }
-  .card:active { transform: scale(0.985); }
-
-  .day-num-row {
-    display: flex;
-    align-items: baseline;
-    justify-content: center;
-    gap: 0;
-    margin-bottom: 10px;
-  }
-  .day-prefix {
-    display: none;
-  }
-  .day-suffix {
-    display: none;
-  }
-  .day-num {
-    font-family: 'Inter', system-ui, sans-serif;
-    font-weight: 600;
-    font-size: 11px;
-    letter-spacing: 0.16em;
-    color: var(--accent);
-    cursor: pointer;
-    line-height: 1;
-    padding: 2px 5px;
-    border-radius: 6px;
-    transition: background .15s ease;
-    min-width: 16px;
-    display: inline-block;
-    text-transform: uppercase;
-  }
-  .day-num:hover { background: var(--accent-soft); }
-  .day-num input {
-    font-family: inherit;
-    font-size: inherit;
-    font-weight: inherit;
-    color: inherit;
-    background: transparent;
-    border: none;
-    outline: none;
-    width: 36px;
-    text-align: center;
-    padding: 0;
-    -moz-appearance: textfield;
-  }
-  .day-num input::-webkit-outer-spin-button,
-  .day-num input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-
-  .card-date {
-    font-family: 'Inter', system-ui, sans-serif;
-    font-weight: 600;
-    font-size: 22px;
-    color: var(--ink);
-    line-height: 1;
-    letter-spacing: -0.03em;
-  }
-  .card-weekday {
-    font-family: 'Inter', system-ui, sans-serif;
-    font-style: italic;
-    font-weight: 400;
-    font-size: 12px;
-    color: var(--ink-soft);
-    margin-top: 5px;
-    line-height: 1;
-  }
-
-  /* Forgetting curve (read-only tiles) */
+  /* Forgetting curve tiles */
   .curve-card {
     position: relative;
     background: var(--paper);
@@ -280,10 +221,74 @@
     line-height: 1;
   }
 
+  /* Increment cards */
+  .card {
+    position: relative;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 14px 10px 12px;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .day-num-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0;
+    margin-bottom: 10px;
+  }
+  .day-num-prefix {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    color: var(--accent);
+  }
+  .day-num-suffix {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  .day-num {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    color: var(--accent);
+    line-height: 1;
+    padding: 2px 4px;
+    min-width: 16px;
+    display: inline-block;
+    text-transform: uppercase;
+  }
+
+  .card-date {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 600;
+    font-size: 22px;
+    color: var(--ink);
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+  .card-weekday {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-top: 5px;
+    line-height: 1;
+  }
+
   /* Footer */
   footer {
     text-align: center;
-    padding-top: 4px;
+    padding-top: 16px;
   }
   .footer-text {
     font-size: 10.5px;
@@ -292,7 +297,7 @@
     letter-spacing: 0.02em;
   }
 
-  /* Hidden native date input over anchor */
+  /* Hidden native date input */
   .hidden-input {
     position: absolute;
     left: 16px;
@@ -304,6 +309,146 @@
     border: none;
     background: transparent;
   }
+
+  /* Sidebar overlay */
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(31,27,23,0.25);
+    z-index: 100;
+    backdrop-filter: blur(1px);
+  }
+  .sidebar-overlay.open { display: block; }
+
+  /* Sidebar panel */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 280px;
+    background: var(--paper);
+    border-left: 1px solid var(--line);
+    box-shadow: -8px 0 32px -8px rgba(31,27,23,0.14);
+    z-index: 101;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform .28s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 28px 22px 32px;
+    gap: 24px;
+  }
+  .sidebar.open { transform: translateX(0); }
+
+  .sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .sidebar-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .sidebar-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--ink-faint);
+    padding: 4px;
+    border-radius: 6px;
+    transition: color .15s, background .15s;
+    line-height: 1;
+  }
+  .sidebar-close:hover { color: var(--ink); background: var(--line); }
+
+  .sidebar-tiles {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .sidebar-tile {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 14px 16px;
+    text-align: left;
+  }
+  .sidebar-tile-label {
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 8px;
+  }
+  .sidebar-tile-day {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+  .sidebar-tile-day span { color: var(--ink-soft); font-size: 16px; font-weight: 500; }
+  .sidebar-input {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid var(--line-strong);
+    outline: none;
+    flex: 1;
+    text-align: center;
+    padding: 0;
+    -moz-appearance: textfield;
+    transition: border-color .15s;
+  }
+  .sidebar-input:focus { border-color: var(--accent); }
+  .sidebar-input::-webkit-outer-spin-button,
+  .sidebar-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+  .sidebar-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: auto;
+  }
+  .btn-save {
+    flex: 1;
+    padding: 12px;
+    border-radius: 12px;
+    border: none;
+    background: var(--accent);
+    color: #fff;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity .15s;
+  }
+  .btn-save:hover { opacity: 0.88; }
+  .btn-reset {
+    flex: 1;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1.5px solid var(--line-strong);
+    background: transparent;
+    color: var(--ink-soft);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: border-color .15s, color .15s;
+  }
+  .btn-reset:hover { border-color: var(--ink-soft); color: var(--ink); }
 
   /* Entrance animation */
   @keyframes rise {
@@ -335,19 +480,44 @@
     body { padding: 14px; }
     .app { gap: 14px; }
     .anchor { padding: 16px 18px 18px; }
-    .weekday { font-size: 30px; }
-    .full-date { font-size: 14px; }
-    .day-num { font-size: 24px; }
     .brand { font-size: 26px; }
   }
 </style>
 </head>
 <body>
-<main class="app" role="application" aria-label="forgetful · spaced reminders">
+
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<aside class="sidebar" id="sidebar" aria-label="Customize intervals">
+  <div class="sidebar-header">
+    <span class="sidebar-title">Intervals</span>
+    <button class="sidebar-close" id="sidebar-close" aria-label="Close">✕</button>
+  </div>
+  <div class="sidebar-tiles">
+    <div class="sidebar-tile">
+      <div class="sidebar-tile-label">1st Interval</div>
+      <div class="sidebar-tile-day"><span>Day</span><input class="sidebar-input" type="number" min="1" max="999" inputmode="numeric" data-si="0" value="2"></div>
+    </div>
+    <div class="sidebar-tile">
+      <div class="sidebar-tile-label">2nd Interval</div>
+      <div class="sidebar-tile-day"><span>Day</span><input class="sidebar-input" type="number" min="1" max="999" inputmode="numeric" data-si="1" value="7"></div>
+    </div>
+    <div class="sidebar-tile">
+      <div class="sidebar-tile-label">3rd Interval</div>
+      <div class="sidebar-tile-day"><span>Day</span><input class="sidebar-input" type="number" min="1" max="999" inputmode="numeric" data-si="2" value="30"></div>
+    </div>
+  </div>
+  <div class="sidebar-actions">
+    <button class="btn-save" id="btn-save">Save</button>
+    <button class="btn-reset" id="btn-reset">Reset</button>
+  </div>
+</aside>
+
+<main class="app" role="application" aria-label="forgetful · spaced repetition">
 
   <header>
     <h1 class="brand">forgetful<span class="dot">.</span></h1>
     <div class="tagline">spaced repetition</div>
+    <button class="gear-btn" id="gear-btn" aria-label="Customize intervals">⚙</button>
   </header>
 
   <section class="anchor" id="anchor" aria-label="Anchor date">
@@ -356,7 +526,7 @@
       <span class="edit-hint">tap to change ↗</span>
     </div>
     <div>
-      <span class="full-date balance" id="anchor-fulldate">May 7, 2026</span>
+      <span class="full-date balance" id="anchor-fulldate">May 14, 2026</span>
       <span class="weekday" id="anchor-weekday">Thursday</span>
     </div>
     <input type="date" class="hidden-input" id="date-picker" aria-label="Choose anchor date">
@@ -370,17 +540,17 @@
 
   <section class="intervals curve-grid" aria-label="Forgetting curve intervals">
     <article class="curve-card">
-      <div class="curve-label">DAY 1</div>
+      <div class="curve-label" data-curve-label="0">DAY 2</div>
       <div class="curve-date" data-curve-date="0">—</div>
       <div class="curve-weekday" data-curve-weekday="0">—</div>
     </article>
     <article class="curve-card">
-      <div class="curve-label">DAY 7</div>
+      <div class="curve-label" data-curve-label="1">DAY 7</div>
       <div class="curve-date" data-curve-date="1">—</div>
       <div class="curve-weekday" data-curve-weekday="1">—</div>
     </article>
     <article class="curve-card">
-      <div class="curve-label">DAY 30</div>
+      <div class="curve-label" data-curve-label="2">DAY 30</div>
       <div class="curve-date" data-curve-date="2">—</div>
       <div class="curve-weekday" data-curve-weekday="2">—</div>
     </article>
@@ -395,39 +565,44 @@
   <section class="intervals" aria-label="Reminder intervals">
     <article class="card" data-index="0">
       <div class="day-num-row">
-        <span class="day-num" data-day-num title="Tap to edit">+ 1</span>
+        <span class="day-num-prefix">+</span>
+        <span class="day-num" data-day-num>1</span>
+        <span class="day-num-suffix" data-day-suffix>DAY</span>
       </div>
-      <div class="card-date" data-date>May 8</div>
-      <div class="card-weekday" data-weekday>Fri</div>
+      <div class="card-date" data-date>—</div>
+      <div class="card-weekday" data-weekday>—</div>
     </article>
-
     <article class="card" data-index="1">
       <div class="day-num-row">
-        <span class="day-num" data-day-num title="Tap to edit">+ 5</span>
+        <span class="day-num-prefix">+</span>
+        <span class="day-num" data-day-num>5</span>
+        <span class="day-num-suffix" data-day-suffix>DAYS</span>
       </div>
-      <div class="card-date" data-date>May 12</div>
-      <div class="card-weekday" data-weekday>Tue</div>
+      <div class="card-date" data-date>—</div>
+      <div class="card-weekday" data-weekday>—</div>
     </article>
-
     <article class="card" data-index="2">
       <div class="day-num-row">
-        <span class="day-num" data-day-num title="Tap to edit">+ 23</span>
+        <span class="day-num-prefix">+</span>
+        <span class="day-num" data-day-num>23</span>
+        <span class="day-num-suffix" data-day-suffix>DAYS</span>
       </div>
-      <div class="card-date" data-date>May 30</div>
-      <div class="card-weekday" data-weekday>Sat</div>
+      <div class="card-date" data-date>—</div>
+      <div class="card-weekday" data-weekday>—</div>
     </article>
   </section>
 
   <footer>
-    <p class="footer-text">tap a date to change · tap a number to adjust</p>
+    <p class="footer-text">tap on the date to change</p>
   </footer>
 
 </main>
 
 <script>
-  // --- state ---
+  const DEFAULT_CURVE = [2, 7, 30];
+
   let anchorDate = startOfDay(new Date());
-  const intervals = [1, 5, 23];
+  let curveIntervals = [...DEFAULT_CURVE];
 
   const weekdays      = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
   const weekdaysShort = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
@@ -455,8 +630,10 @@
            a.getMonth() === b.getMonth() &&
            a.getDate() === b.getDate();
   }
+  function diffDays(a, b) {
+    return Math.round((b - a) / 86400000);
+  }
 
-  // --- render ---
   function render() {
     // Anchor
     document.getElementById('anchor-weekday').textContent = weekdays[anchorDate.getDay()];
@@ -464,30 +641,38 @@
       `${months[anchorDate.getMonth()]} ${anchorDate.getDate()}, ${anchorDate.getFullYear()}`;
     document.getElementById('date-picker').value = ymd(anchorDate);
 
-    // Tag updates: today / not today
     const tag = document.querySelector('.day-tag');
     const isToday = isSameDay(anchorDate, startOfDay(new Date()));
     tag.innerHTML = `<span class="pip"></span>Day 1 · ${isToday ? 'today' : 'anchor'}`;
 
-    // Forgetting curve (fixed 1, 7, 30 days)
-    const curveIntervals = [1, 7, 30];
+    // Forgetting curve: absolute days from anchor
     curveIntervals.forEach((n, i) => {
       const target = addDays(anchorDate, n);
+      document.querySelector(`[data-curve-label="${i}"]`).textContent = `DAY ${n}`;
       document.querySelector(`[data-curve-date="${i}"]`).textContent =
         `${monthsShort[target.getMonth()]} ${target.getDate()}`;
       document.querySelector(`[data-curve-weekday="${i}"]`).textContent =
         weekdaysShort[target.getDay()];
     });
 
-    // Cards: Day N starts counting from Day 1 = anchor, so Day N = anchor + (N-1)
+    // Increments: gaps between curve dates
+    // tile 0: curve[0] - 1
+    // tile 1: curve[0] → curve[1]
+    // tile 2: curve[1] → curve[2]
+    const gaps = [
+      curveIntervals[0] - 1,
+      curveIntervals[1] - curveIntervals[0],
+      curveIntervals[2] - curveIntervals[1],
+    ];
+
     document.querySelectorAll('.card').forEach((card, i) => {
-      const n = intervals[i];
-      const target = addDays(anchorDate, n);
-      const numEl = card.querySelector('[data-day-num]');
-      if (!numEl.querySelector('input')) numEl.textContent = `+${n} DAY${n === 1 ? '' : 'S'}`;
-      card.querySelector('[data-weekday]').textContent = weekdaysShort[target.getDay()];
+      const gap = gaps[i];
+      const target = addDays(anchorDate, curveIntervals[i]);
+      card.querySelector('[data-day-num]').textContent = gap;
+      card.querySelector('[data-day-suffix]').textContent = gap === 1 ? 'DAY' : 'DAYS';
       card.querySelector('[data-date]').textContent =
         `${monthsShort[target.getMonth()]} ${target.getDate()}`;
+      card.querySelector('[data-weekday]').textContent = weekdaysShort[target.getDay()];
     });
   }
 
@@ -498,7 +683,7 @@
     el.classList.add('pulse');
   }
 
-  // --- anchor: open native date picker on tap ---
+  // --- Anchor date picker ---
   const anchorEl  = document.getElementById('anchor');
   const datePicker = document.getElementById('date-picker');
 
@@ -511,10 +696,7 @@
   }
   anchorEl.addEventListener('click', openDatePicker);
   anchorEl.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      openDatePicker();
-    }
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openDatePicker(); }
   });
   anchorEl.setAttribute('role', 'button');
   anchorEl.setAttribute('tabindex', '0');
@@ -528,39 +710,47 @@
     pulse(document.getElementById('anchor-fulldate'));
   });
 
-  // --- interval edit ---
-  document.querySelectorAll('[data-day-num]').forEach((el, i) => {
-    el.addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (el.querySelector('input')) return;
+  // --- Sidebar ---
+  const sidebar        = document.getElementById('sidebar');
+  const sidebarOverlay = document.getElementById('sidebar-overlay');
+  const gearBtn        = document.getElementById('gear-btn');
+  const closeBtn       = document.getElementById('sidebar-close');
+  const siInputs       = document.querySelectorAll('.sidebar-input');
 
-      const current = intervals[i];
-      const input = document.createElement('input');
-      input.type = 'number';
-      input.min = '1';
-      input.max = '999';
-      input.inputMode = 'numeric';
-      input.value = current;
-      el.textContent = '';
-      el.appendChild(input);
-      input.focus();
-      input.select();
+  function openSidebar() {
+    curveIntervals.forEach((v, i) => { siInputs[i].value = v; });
+    sidebar.classList.add('open');
+    sidebarOverlay.classList.add('open');
+  }
+  function closeSidebar() {
+    sidebar.classList.remove('open');
+    sidebarOverlay.classList.remove('open');
+  }
 
-      const commit = () => {
-        const raw = parseInt(input.value, 10);
-        const val = (isFinite(raw) && raw >= 1 && raw <= 999) ? raw : current;
-        intervals[i] = val;
-        el.textContent = `+${val} DAY${val === 1 ? '' : 'S'}`;
-        render();
-        pulse(document.querySelectorAll('.card')[i].querySelector('[data-date]'));
-      };
+  gearBtn.addEventListener('click', openSidebar);
+  closeBtn.addEventListener('click', closeSidebar);
+  sidebarOverlay.addEventListener('click', closeSidebar);
 
-      input.addEventListener('blur', commit, { once: true });
-      input.addEventListener('keydown', (ev) => {
-        if (ev.key === 'Enter') input.blur();
-        if (ev.key === 'Escape') { input.value = current; input.blur(); }
-      });
-    });
+  document.getElementById('btn-save').addEventListener('click', () => {
+    const vals = Array.from(siInputs).map(inp => parseInt(inp.value, 10));
+    if (vals.some(v => !isFinite(v) || v < 1 || v > 999)) return;
+    if (vals[1] <= vals[0] || vals[2] <= vals[1]) {
+      siInputs[0].style.borderColor = vals[1] <= vals[0] ? 'red' : '';
+      siInputs[1].style.borderColor = vals[2] <= vals[1] ? 'red' : '';
+      return;
+    }
+    siInputs.forEach(inp => inp.style.borderColor = '');
+    curveIntervals = vals;
+    render();
+    closeSidebar();
+    pulse(document.querySelector('[data-curve-date="0"]'));
+  });
+
+  document.getElementById('btn-reset').addEventListener('click', () => {
+    curveIntervals = [...DEFAULT_CURVE];
+    curveIntervals.forEach((v, i) => { siInputs[i].value = v; });
+    siInputs.forEach(inp => inp.style.borderColor = '');
+    render();
   });
 
   render();
