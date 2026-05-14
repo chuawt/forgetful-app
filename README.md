@@ -23,6 +23,8 @@ There are three sections:
 3. Tap ⚙ to open the interval editor and adjust the three checkpoints
 4. Use the dates as reminders to revisit whatever you're trying to hold onto
 
+![forgetful screenshot](screenshot.png)
+
 ## Stack
 
 A single `index.html` — no build step, no dependencies, no backend. Open it in a browser and it works.
