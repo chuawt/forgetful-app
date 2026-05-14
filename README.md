@@ -25,6 +25,10 @@ There are three sections:
 
 ![forgetful screenshot](screenshot.png)
 
+Tap the ⚙ icon to customize the intervals:
+
+![forgetful with sidebar](screenshot-sidebar.png)
+
 ## Stack
 
 A single `index.html` — no build step, no dependencies, no backend. Open it in a browser and it works.

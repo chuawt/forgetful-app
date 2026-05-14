@@ -6,29 +6,33 @@ A spaced-repetition memory aid. The 1 / 2 / 7 / 30 rhythm helps you re-encounter
 Quiet, lowercase, slightly editorial. Never shouty. Never marketing.
 
 ## Palette (CSS variables in `index.html`)
-- `--bg` `#F4EEDF` — warm cream paper
-- `--paper` `#FAF6EC` — surface (lighter cream, for cards)
+- `--bg` `#F4EEDF` — background with subtle ambient gradient
+- `--paper` `#FAF6EC` — card surface (lighter cream)
 - `--ink` `#1F1B17` — primary text
-- `--ink-soft` `#5C544B` — muted text
-- `--line` `#E2D9C5` — hairline borders
-- `--accent` `#B85A2E` — burnt orange (single accent, used sparingly)
-- `--accent-soft` `#E5C9B2` — accent tint for hover/active
+- `--ink-soft` `#5C544B` — secondary text (labels, captions)
+- `--ink-faint` `#8A8175` — tertiary text (disabled, hints)
+- `--line` `#E2D9C5` — hairline borders, dividers
+- `--line-strong` `#D6CAB0` — stronger borders, input focus
+- `--accent` `#B85A2E` — burnt orange (used sparingly: labels, focus states)
+- `--accent-soft` `#E5C9B2` — accent tint (hover/active states)
 
 ## Type
-- **Display:** Fraunces (variable, optical-size aware) — used for the brand mark, weekday names, day numbers
-- **Body / labels:** Inter — used for tags, captions, and small UI copy
-- Roles: `display` (28–32px), `headline` (18px italic), `body` (12–14px), `caption` (10–11px, uppercase tracking)
+- **All text:** Inter (system-ui fallback) — used throughout the interface
+- Roles: `brand` (38px, bold), `label` (12px, uppercase tracking), `body` (14px), `caption` (12px, muted)
 
 ## Visual style
 Soft rounded (16–20px radii). Hairline borders + subtle paper-tone shadows. No gradients on surfaces; ambient gradients only as background atmosphere.
 
 ## Motion
-Spring-light. Entrance: gentle rise + fade, staggered. Interaction: scale-down on tap (0.98–0.99). Update: short color/scale pulse to confirm a change.
+Spring-light, subtle. Entrance: gentle rise + fade, staggered. Interaction: scale-down on tap (0.98–0.99). Updates: brief color/brightness pulse to confirm state change.
+- **Sidebar:** slide in from right (250ms ease), backdrop fades in, input focus draws hairline border
 
 ## Components
-- **Anchor card** — full-width, larger surface, tap target opens native date picker
-- **Interval card** — small, three-up grid, displays editable day number + computed date
-- **Divider** — hairline + uppercase tracked label, used to separate anchor from reminders
+- **Anchor card** — full-width, larger surface (22px radius), shows Day 1 date + weekday. Tap opens native date picker.
+- **Curve card** — displays review checkpoints (Day 2, 7, 30 by default). Shows computed date + weekday. Three-up grid layout.
+- **Increment card** — displays gaps between curve dates (+ N days). Three-up grid, mirrors curve dates and weekdays.
+- **Divider** — hairline border + uppercase tracked label. Separates sections.
+- **Settings sidebar** — right-side panel (overlay on mobile). Contains three rows of editable Day N inputs. Slide-out animation with semi-transparent backdrop. Reset button returns to defaults.
 
 ## Spacing
 4 / 8 / 12 / 16 / 20 / 24 / 32 / 48
