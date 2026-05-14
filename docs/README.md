@@ -14,7 +14,7 @@ There are three sections:
 
 - **Anchor (Day 1)** — your start date. Tap to change it.
 - **Forgetting Curve** — three review checkpoints (Day 2, Day 7, Day 30 by default), each dated from your anchor. Tap ⚙ to customise the intervals.
-- **Increments** — the day gaps between each checkpoint, for a quick sense of spacing.
+- **Increments** — days after the anchor date for each checkpoint, for a quick sense of progress.
 
 ## How to use it
 

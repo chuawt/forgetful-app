@@ -30,9 +30,12 @@ Spring-light, subtle. Entrance: gentle rise + fade, staggered. Interaction: scal
 ## Components
 - **Anchor card** — full-width, larger surface (22px radius), shows Day 1 date + weekday. Tap opens native date picker.
 - **Curve card** — displays review checkpoints (Day 2, 7, 30 by default). Shows computed date + weekday. Three-up grid layout.
-- **Increment card** — displays gaps between curve dates (+ N days). Three-up grid, mirrors curve dates and weekdays.
+- **Increment card** — displays days after the anchor date (+ N days from anchor). Three-up grid, mirrors curve dates and weekdays.
 - **Divider** — hairline border + uppercase tracked label. Separates sections.
 - **Settings sidebar** — right-side panel (overlay on mobile). Contains three rows of editable Day N inputs. Slide-out animation with semi-transparent backdrop. Reset button returns to defaults.
+
+## Footer
+Subtle attribution right-aligned in italic with accent heart: "♥ by chuawt"
 
 ## Spacing
 4 / 8 / 12 / 16 / 20 / 24 / 32 / 48
