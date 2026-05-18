@@ -42,7 +42,7 @@ A single `index.html` — no build step, no dependencies, no backend. Open it in
 
 Visit [forgetful.pages.dev](https://forgetful.pages.dev/) to use the app.
 
-## Local use
+## Run Locally
 
 ```
 open index.html
